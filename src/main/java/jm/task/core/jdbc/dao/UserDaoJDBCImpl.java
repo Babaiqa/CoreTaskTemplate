@@ -33,10 +33,11 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void saveUser(String name, String lastName, byte age) {
         try {
-            conn.createStatement().executeUpdate("INSERT INTO usersTable(name, lastname, age) VALUES ('"
-                    + name + "', '"
-                    + lastName + "', "
-                    + age + ")");
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO usersTable (name, lastname, age) VALUES (?, ?, ?)");
+            ps.setString(1,name);
+            ps.setString(2, lastName);
+            ps.setByte(3, age);
+            ps.executeUpdate();
 
             System.out.printf("User с именем – %s добавлен в базу данных" + '\n', name);
         } catch (SQLException e) {
@@ -46,7 +47,8 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void removeUserById(long id) {
         try {
-            conn.createStatement().executeUpdate("DELETE FROM usersTable WHERE id = " + id);
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM usersTable WHERE id = ?");
+            ps.setLong(1, id);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -57,7 +59,7 @@ public class UserDaoJDBCImpl implements UserDao {
         ResultSet rs;
         try {
             rs = conn.createStatement().executeQuery("SELECT * FROM usersTable");
-            while (rs.next()){
+            while (rs.next()) {
                 list.add(new User(rs.getString(2), rs.getString(3), rs.getByte(4)));
             }
         } catch (SQLException e) {
