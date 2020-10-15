@@ -11,7 +11,6 @@ public class Util {
     Connection connection = null;
 
     public Connection connect() {
-
         try {
             Class.forName(DRIVER);
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
