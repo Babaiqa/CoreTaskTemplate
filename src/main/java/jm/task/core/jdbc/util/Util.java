@@ -32,6 +32,11 @@ public class Util {
             properties.setProperty("hibernate.connection.username", USERNAME);
             properties.setProperty("hibernate.connection.password", PASSWORD);
             properties.setProperty("hibernate.connection.pool_size", "1");
+            properties.setProperty("hibernate.show_sql", "true");
+            properties.setProperty("hibernate.use_sql_comments", "true");
+            properties.setProperty("hibernate.format_sql", "true");
+            properties.setProperty("hibernate.connection.autocommit", "true");
+
 
             Configuration configuration = new Configuration()
                     .addAnnotatedClass(User.class).setProperties(properties);
